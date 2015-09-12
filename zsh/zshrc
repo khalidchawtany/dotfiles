@@ -1,0 +1,22 @@
+# tmux attach &> /dev/null 
+# if [[ ! $TERM =~ screen ]]; then; exec tmux; fi
+
+
+source ~/dotfiles/zsh/setopt.zsh
+
+source ~/dotfiles/zsh/exports.zsh
+
+source ~/dotfiles/zsh/history.zsh
+
+source ~/dotfiles/zsh/colors.zsh
+
+source ~/dotfiles/zsh/prompt.zsh
+
+source ~/dotfiles/zsh/plugins_config.zsh
+
+[ -f ~/.profile  ] && source ~/.profile
+
+source ~/dotfiles/zsh/aliases.zsh
+
+source ~/dotfiles/zsh/keybindings.zsh
+
