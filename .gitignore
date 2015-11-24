@@ -2,3 +2,5 @@ tmp
 cache
 .cache
 .tmp
+temp/z_jump
+.gitignore
