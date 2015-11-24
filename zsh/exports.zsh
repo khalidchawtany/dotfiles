@@ -13,7 +13,6 @@ export ARCHFLAGS='-arch x86_64'
 export LESS='--ignore-case --raw-control-chars'
 export PAGER='less'
 #export EDITOR='subl -w'
-# export EDITOR='nvim'
 export NVIM_LISTEN_ADDRESS=/tmp/nv_socket
 export EDITOR='nvim'
 
@@ -48,3 +47,6 @@ export DOCKER_HOST=tcp://192.168.59.103:2376
 export DOCKER_CERT_PATH=/Volumes/Home/.boot2docker/certs/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
 
+
+
+export _Z_DATA=~/dotfiles/temp/z_jump

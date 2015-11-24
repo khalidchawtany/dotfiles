@@ -92,6 +92,9 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
+alias cdd='cd ~/dotfiles/'
+alias cdv='cd ~/.config/nvim'
+
 # Command line head / tail shortcuts
 alias -g H='| head'
 alias -g T='| tail'
@@ -327,26 +330,55 @@ alias ff='find . -type f -name'
 
 # Git {{{
 
+  # git
   alias g=git
+  alias gs='git status -s'
+  alias gcl='git config --list'
+
+  # add
   alias ga='git add'
+  alias gaa='git add .'
   alias gap='git add --patch'
+  alias gi='git add -pi'
+
+  # branch
   alias gb='git branch'
   alias gba='git branch -a'
   alias gbr='git branch --remote'
+
+  # commit
   alias gc='git commit -v'
   alias 'gc!'='git commit -v --amend'
+  alias gc!='git commit --amend'
   alias gca='git commit -v -a'
   alias 'gca!'='git commit -v -a --amend'
-  alias gcl='git config --list'
-  # alias gclean='git reset --hard && git clean -dfx'
+  alias gcs='git commit -S'
+  alias gcm='git commit -m'
+  alias gcm!='git commit --amend -m'
+
+  # checkout
   alias gcom='git checkout master'
   alias gco='git checkout'
-  alias gcount='git shortlog -sn'
-  alias gcp='git cherry-pick'
-  alias gcs='git commit -S'
+
+  # diff
   alias gd='git diff'
   alias gdc='git diff --cached'
   alias gdt='git difftool'
+
+  # log
+  alias gl='git log --oneline --graph --decorate --all'
+  alias glg='git log --stat --max-count=10'
+  alias glgg='git log --graph --max-count=10'
+  alias glgga='git log --graph --decorate --all'
+  alias glo='git log --oneline --decorate --color'
+  alias glog='git log --oneline --decorate --color --graph'
+  alias glp=_git_log_prettily
+  alias gcount='git shortlog -sn'
+
+  # alias gclean='git reset --hard && git clean -dfx'
+  alias grmo='git merge --strategy=ours master && git checkout master && git rebase '
+  alias gml2c='git reset --soft "HEAD^" && git commit --amend'
+  alias gcp='git cherry-pick'
   alias gg='git gui citool'
   alias gga='git gui citool --amend'
   alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
@@ -355,6 +387,25 @@ alias ff='find . -type f -name'
   alias ggpush='git push origin $(current_branch)'
   alias gignore='git update-index --assume-unchanged'
   alias gignored='git ls-files -v | grep "^[[:lower:]]"'
+
+
+  alias gl='git pull'
+  alias gp='git push'
+  alias gpo='git push origin'
+  alias gr='git remote'
+  alias gres='git remote set-url'
+  alias gpl='git pull --rebase'
+  alias gplo='git pull --rebase && git push'
+  alias gpls='git stash -u && git pull --rebase && git stash pop'
+  alias gst='git stash'
+  alias gstd='git stash -u && git stash drop'
+  alias gstl='git stash -u && git pull --rebase && git stash pop'
+  alias gcl='git clone'
+  alias gr='git rebase'
+  alias grc='git rebase --continue'
+  alias gra='git rebase --abort'
+  alias gb='git branch'
+  alias grh='git reset HEAD'
 
   alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 
@@ -365,13 +416,6 @@ alias ff='find . -type f -name'
   alias github_get_user_repos=' curl -s https://api.github.com/users/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
 
   alias gk='gitk --all --branches'
-  alias gl='git pull'
-  alias glg='git log --stat --max-count=10'
-  alias glgg='git log --graph --max-count=10'
-  alias glgga='git log --graph --decorate --all'
-  alias glo='git log --oneline --decorate --color'
-  alias glog='git log --oneline --decorate --color --graph'
-  alias glp=_git_log_prettily
   alias gm='git merge'
   alias gmt='git mergetool --no-prompt'
   alias gp='git push'
@@ -442,7 +486,9 @@ alias please='sudo'
 
 #alias nunit=/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4
 #alias nunit-console.exe=/Library/Frameworks/Mono.framework/Versions/Current/bin/nunit-console4
-alias nv='NVIM_LISTEN_ADDRESS=/tmp/nv_socket nvim'
+alias nv='nvim'
+alias nv_profile='cd ~/dotfiles/nvim/vim-plugins-profile-master/ && sh vim-plugins-profile.sh && open . && popd'
+
 alias nval='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim | atom --include-deprecated-apis .'
 alias nva='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim'
 alias oi=/Volumes/Home/Development/Libraries/ContinuousTests/_Console_OI/oi
@@ -574,10 +620,33 @@ alias which-command=whence
 # alias unicorn_rails=bundled_unicorn_rails
 
 
+# # #############################################################################
+#                                 Debug Neovim                                 # 
+# ############################################################################## 
 
+alias nvim_coredump="ulimit -c unlimited && nvim"
+alias nvim_gdb="gdb nvim"
+alias nvim_make_debug="make CMAKE_BUILD_TYPE=Debug"
 
+# # #############################################################################
+#                                  Youtube-dl                                  # 
+# ############################################################################## 
+alias youtube-dl-mp3="youtube-dl --extract-audio --audio-format mp3  --audio-quality  0 "
+alias youtube-dl-mp3-process="ffmpeg -v 5 -y -acodec libmp3lame -ac 2 -ab 192k -i "
 
+# # #############################################################################
+#                                   SpotLight                                  # 
+# ############################################################################## 
 
+# Delete spotlight index
+alias spotlight_clean_index_all="sudo mdutil -Ea"
+alias spotlight_clean_index="sudo mdutil -E"
+
+# Turn indexing off/on
+alias spotlight_indexing_off_all="sudo mdutil -ai off"
+alias spotlight_indexing_off="sudo mdutil -i off"
+alias spotlight_indexing_on_all="sudo mdutil -ai on"
+alias spotlight_indexing_on="sudo mdutil -i on"
 
 
 
@@ -600,35 +669,6 @@ alias l='ls'
 #alias ls='ls --color=always'
 alias ll='ls -al'
 alias lt='ls -alt'
-alias g='git'
-alias gd='git diff'
-alias ga='git add'
-alias gdc='git diff --cached'
-alias gs='git status -s'
-alias gl='git log --oneline --graph --decorate --all'
-alias gc='git commit -v'
-alias gcm='git commit -m'
-alias gc!='git commit --amend'
-alias gcm!='git commit --amend -m'
-alias gp='git push'
-alias gpo='git push origin'
-alias gpm='git push seletskiy'
-alias gr='git remote'
-alias gres='git remote set-url'
-alias gpl='git pull --rebase'
-alias gplo='git pull --rebase && git push'
-alias gpls='git stash -u && git pull --rebase && git stash pop'
-alias gcl='git clone'
-alias gst='git stash'
-alias gr='git rebase'
-alias grc='git rebase --continue'
-alias gra='git rebase --abort'
-alias gstd='git stash -u && git stash drop'
-alias gstl='git stash -u && git pull --rebase && git stash pop'
-alias gco='git checkout'
-alias gb='git branch'
-alias grh='git reset HEAD'
-alias gi='git add -pi'
 
 alias srm='ssh-keygen -R'
 
@@ -865,3 +905,9 @@ _cd-to-vim-bundle() {
 #Aliases from seletskey}}}
 
 
+
+
+
+
+
+alias brew_fix_links='brew linkapps; find ~/Applications -type l | while read f; do osascript -e "tell app \"Finder\" to make new alias file at POSIX file \"/Applications\" to POSIX file \"$(stat -f%Y "$f")\""; rm "$f"; done'
