@@ -11,14 +11,14 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 
 alias fzalias='alias | fzf -x --cycle'
-alias fza=fzalias
+alias ja=fzalias
 
 
-#Opening Files {{{
+# Opening Files {{{
     # fe [FUZZY PATTERN] - Open the selected file with the default editor
     #   - Bypass fuzzy finder if there's only one match (--select-1)
     #   - Exit if there's no match (--exit-0)
-    fze() {
+    je() {
       local file
       file=$(fzf --query="$1" --select-1 --exit-0)
       [ -n "$file" ] && ${EDITOR:-vim} "$file"
@@ -27,7 +27,7 @@ alias fza=fzalias
     # Modified version where you can press
     #   - CTRL-O to open with `open` command,
     #   - CTRL-E or Enter key to open with the $EDITOR
-    fzo() {
+    jeo() {
       local out file key
       out=$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)
       key=$(head -1 <<< "$out")
@@ -40,58 +40,57 @@ alias fza=fzalias
 
 # Changing directory {{{
     # fd - cd to selected directory
-    fzd() {
+    jd() {
       local dir
       dir=$(find ${1:-*} -path '*/\.*' -prune \
                       -o -type d -print 2> /dev/null | fzf +m) &&
       cd "$dir"
     }
 
-    fzdir() {
+    jcd() {
       local dir=$(
         find . -path '*/\.*' -prune -o -type d -print |
         sed '1d;s/^..//' | fzf-tmux +m) && cd "$dir"
     }
 
     # fda - including hidden directories
-    fzda() {
+    jda() {
       local dir
       dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
     }
 
     # cdf - cd into the directory of the selected file
-    fzcdf() {
+    jcf() {
       local file
       local dir
       file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
     }
 
-    alias fzcd=fzcdf
 # Changing directory }}}
 
 # Serachin File Contenet{{{
-    alias fzgrep='grep --line-buffered --color=never -r "" * | fzf'
+    alias jg='grep --line-buffered --color=never -r "" * | fzf'
 
     # with ag - respects .agignore and .gitignore
-    alias fzag='ag --nobreak --nonumbers --noheading . | fzf'
+    alias jag='ag --nobreak --nonumbers --noheading . | fzf'
 
 # Serachin File Contenet }}}
 
 # history {{{
     # fh - repeat history
-    fzh() {
+    jh() {
       eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
     }
 
     # fh - repeat history
-    fzhe() {
+    jho() {
       print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
     }
 # history }}}
 
-#kill {{{
+# kill {{{
     # fkill - kill process
-    fzkill() {
+    jk() {
       pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
       if [ "x$pid" != "x" ]
@@ -103,10 +102,10 @@ alias fza=fzalias
 
 #kill }}}
 
-#Git {{{
+# Git {{{
 
     # fbr - checkout git branch
-    fzgcob() {
+    jcb() {
       local branches branch
       branches=$(git branch) &&
       branch=$(echo "$branches" | fzf +m) &&
@@ -114,7 +113,7 @@ alias fza=fzalias
     }
 
     # fbr - checkout git branch (including remote branches)
-    fzgcor() {
+    jcB() {
       local branches branch
       branches=$(git branch --all | grep -v HEAD) &&
       branch=$(echo "$branches" |
@@ -123,7 +122,7 @@ alias fza=fzalias
     }
 
     # fco - checkout git branch/tag
-    fzgco() {
+    jct() {
       local tags branches target
       tags=$(
         git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
@@ -138,7 +137,7 @@ alias fza=fzalias
     }
 
     # fcoc - checkout git commit
-    fzgcoc() {
+    jcc() {
       local commits commit
       commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
       commit=$(echo "$commits" | fzf --tac +s +m -e) &&
@@ -146,7 +145,7 @@ alias fza=fzalias
     }
 
     # fshow - git commit browser
-    fzgl() {
+    jgl() {
       local out sha q
       while out=$(
           git log --decorate=short --graph --oneline --color=always |
@@ -160,7 +159,7 @@ alias fza=fzalias
 
     # fcs - get git commit sha
     # example usage: git rebase -i `fcs`
-    fzggsha() {
+    jcsh() {
       local commits commit
       commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
       commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
@@ -169,10 +168,10 @@ alias fza=fzalias
 
 #}}} _Git
 
-#Tags {{{
+# Tags {{{
 
     # ftags - search ctags
-    fztags() {
+    jt() {
       local line
       [ -e tags ] &&
       line=$(
@@ -184,19 +183,19 @@ alias fza=fzalias
 
 #}}}
 
-#tmux {{{
+# Tmux {{{
 
     # fs [FUZZY PATTERN] - Select selected tmux session
     #   - Bypass fuzzy finder if there's only one match (--select-1)
     #   - Exit if there's no match (--exit-0)
-    fzts() {
+    jts() {
       local session
       session=$(tmux list-sessions -F "#{session_name}" | \
         fzf --query="$1" --select-1 --exit-0) &&
       tmux switch-client -t "$session"
     }
     # ftpane - switch pane
-    fztp () {
+    jtp () {
       local panes current_window target target_window target_pane
       panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_command}')
       current_window=$(tmux display-message  -p '#I')
@@ -217,7 +216,7 @@ alias fza=fzalias
 
 #tmux }}}
 
-#z {{{
+# z {{{
 
     #unalias z 2> /dev/null
     #z() {
@@ -291,7 +290,13 @@ alias fza=fzalias
 
 # vagrant }}}
 
-
+# do a Ag then FZF and then open that line in vim {{{
+  #jag(){
+    #local line
+    #line=`ag --nocolor "$1" | fzf` \
+      #&& : e $(cut -d':' -f1 <<< "$line") +$(cut -d':' -f2 <<< "$line")
+  #}
+#}}}
 ##Browsing
 ## fzf-fs
 ## https://github.com/D630/fzf-fs
