@@ -453,6 +453,7 @@ alias android_kitchen='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PAT
 
 
 alias zz=exit
+alias a=alias
 alias h='history'
 alias help='man'
 # alias j='jobs'

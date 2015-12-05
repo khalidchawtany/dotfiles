@@ -105,7 +105,7 @@ alias ja=fzalias
 # Git {{{
 
     # fbr - checkout git branch
-    jcb() {
+    jco() {
       local branches branch
       branches=$(git branch) &&
       branch=$(echo "$branches" | fzf +m) &&
@@ -113,7 +113,7 @@ alias ja=fzalias
     }
 
     # fbr - checkout git branch (including remote branches)
-    jcB() {
+    jcO() {
       local branches branch
       branches=$(git branch --all | grep -v HEAD) &&
       branch=$(echo "$branches" |
@@ -122,7 +122,7 @@ alias ja=fzalias
     }
 
     # fco - checkout git branch/tag
-    jct() {
+    jcot() {
       local tags branches target
       tags=$(
         git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
@@ -137,7 +137,7 @@ alias ja=fzalias
     }
 
     # fcoc - checkout git commit
-    jcc() {
+    jcoc() {
       local commits commit
       commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
       commit=$(echo "$commits" | fzf --tac +s +m -e) &&
