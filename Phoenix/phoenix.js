@@ -309,6 +309,11 @@ Window.prototype.occupyTopHalf = function () {
 
 /* Mixed Bindings */
 
-keys.push(Phoenix.bind('/', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().occupyTopHalf();
+keys.push(Phoenix.bind('\\', mash, function () {
+  var nvim_qt = App.get('nvim-qt');
+  if(!nvim_qt)
+    //App.launch('nvim-qt');
+    Command.run('/bin/sh', ['/Volumes/Home/bin/nvq']);
+  else
+    nvim_qt.focus();
 }));
