@@ -1,319 +1,123 @@
 'use strict';
 
-var keys = [];
+var modal_keys = [];
 var mash = 'cmd+alt+shift+ctrl'.split('+');
+var ctrl_alt = 'ctrl+alt'.split('+');
 var margin = 0.000001;
 var increment = 0.1;
-
-/* Position */
-
-var Position = {
-
-    central: function (frame, window) {
-
-        return {
-
-            x: frame.x + ((frame.width - window.width) / 2),
-            y: frame.y + ((frame.height - window.height) / 2)
-
-        };
-    },
-
-    top: function (frame, window) {
-
-        return {
-
-            x: window.x,
-            y: frame.y
-
-        };
-    },
-
-    bottom: function (frame, window) {
-
-        return {
-
-            x: window.x,
-            y: (frame.y + frame.height) - window.height
-
-        };
-    },
-
-    left: function (frame, window) {
-
-        return {
-
-            x: frame.x,
-            y: window.y
-
-        };
-    },
-
-    right: function (frame, window) {
-
-        return {
-
-            x: (frame.x + frame.width) - window.width,
-            y: window.y
-
-        };
-    },
-
-    topLeft: function (frame, window, margin) {
-
-        return {
-
-            x: Position.left(frame, window).x + margin,
-            y: Position.top(frame, window).y + margin
-
-        };
-    },
-
-    topRight: function (frame, window, margin) {
-
-        return {
-
-            x: Position.right(frame, window).x - margin,
-            y: Position.top(frame, window).y + margin
-
-        };
-    },
-
-    bottomLeft: function (frame, window, margin) {
-
-        return {
-
-            x: Position.left(frame, window).x + margin,
-            y: Position.bottom(frame, window).y - margin
-
-        };
-    },
-
-    bottomRight: function (frame, window, margin) {
-
-        return {
-
-            x: Position.right(frame, window).x - margin,
-            y: Position.bottom(frame, window).y - margin
-
-        };
-    }
-};
-
-/* Grid */
-
-var Frame = {
-
-    width: 1,
-    height: 1,
-
-    half: {
-
-        width: 0.5,
-        height: 0.5
-
-    },
-
-    reverse: {
-      x:'x',
-      y:'y',
-      both:'both'
-    }
-};
-
-/* Window Functions */
-
-Window.prototype.to = function (position) {
-
-    this.setTopLeft(position(this.screen().visibleFrameInRectangle(), this.frame(), margin));
-}
-
-// Window.prototype.grid = function (x, y, reverse) {
-Window.prototype.grid = function (x, y, reverse) {
-
-    var frame = this.screen().visibleFrameInRectangle();
-
-    var newWindowFrame = _(this.frame()).extend({
-
-        width: (frame.width * x) - (2 * margin),
-        height: (frame.height * y) - (2 * margin)
-
-    });
-
-    var position;
-
-    switch (reverse) {
-      case 'x':
-        position = Position.topRight(frame, newWindowFrame, margin); break;
-      case 'y':
-        position = Position.bottomLeft(frame, newWindowFrame, margin); break;
-      case 'both':
-        position = Position.bottomRight(frame, newWindowFrame, margin); break;
-      default:
-        position = Position.topLeft(frame, newWindowFrame, margin)
-    }
-
-    this.setFrame(_(newWindowFrame).extend(position));
-}
-
-
-Window.prototype.resize = function (multiplier) {
-
-    var frame = this.screen().visibleFrameInRectangle();
-    var newSize = this.size();
-
-    if (multiplier.x) {
-        newSize.width += frame.width * multiplier.x;
-    }
-
-    if (multiplier.y) {
-        newSize.height += frame.height * multiplier.y;
-    }
-
-    this.setSize(newSize);
-}
-
-Window.prototype.increaseWidth = function () {
-
-    this.resize({ x: increment });
-}
-
-Window.prototype.decreaseWidth = function () {
-
-    this.resize({ x: -increment });
-}
-
-Window.prototype.increaseHeight = function () {
-
-    this.resize({ y: increment });
-}
-
-Window.prototype.decreaseHeight = function () {
-
-    this.resize({ y: -increment });
-}
-
-
-
-/* Position Bindings */
-
-keys.push(Phoenix.bind('$', mash, function () {
-
-    Window.focusedWindow() && Window.focusedWindow().to(Position.topLeft);
-}));
-
-keys.push(Phoenix.bind('$', mash, function () {
-
-    Window.focusedWindow() && Window.focusedWindow().to(Position.topRight);
-}));
-
-keys.push(Phoenix.bind('$', mash, function () {
-
-    Window.focusedWindow() && Window.focusedWindow().to(Position.bottomLeft);
-}));
-
-keys.push(Phoenix.bind('$', mash, function () {
-
-    Window.focusedWindow() && Window.focusedWindow().to(Position.bottomRight);
-}));
-
-keys.push(Phoenix.bind('c', mash, function () {
-
-    Window.focusedWindow() && Window.focusedWindow().to(Position.central);
-}));
-
-/* Grid Bindings */
-
-
-keys.push(Phoenix.bind('j', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.width, Frame.half.height, Frame.reverse.y);
-}));
-
-keys.push(Phoenix.bind('l', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.height, Frame.reverse.x);
-}));
-
-keys.push(Phoenix.bind('k', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.width, Frame.half.height);
-}));
-
-keys.push(Phoenix.bind('h', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.height);
-}));
-
-keys.push(Phoenix.bind('o', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.width, Frame.height) & Window.focusedWindow().to(Position.central);
-}));
-
-keys.push(Phoenix.bind('u', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.half.height);
-}));
-
-keys.push(Phoenix.bind('i', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.half.height, Frame.reverse.x);
-}));
-
-keys.push(Phoenix.bind('m', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.half.height, Frame.reverse.both);
-}));
-
-
-keys.push(Phoenix.bind('n', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().grid(Frame.half.width, Frame.half.height, Frame.reverse.y);
-}));
-
-
-/* Resize Bindings */
-
-keys.push(Phoenix.bind(']', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().increaseWidth();
-}));
-
-keys.push(Phoenix.bind('[', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().decreaseWidth();
-}));
-
-keys.push(Phoenix.bind('=', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().increaseHeight();
-}));
-
-keys.push(Phoenix.bind('-', mash, function () {
-    Window.focusedWindow() && Window.focusedWindow().decreaseHeight();
-}));
-
-/* Mixed Functions TESTING STUFF OUT */
-
-Window.prototype.divide = function (multiplier) {
-
-    var frame = this.screen().visibleFrameInRectangle();
-    var newSize = this.size();
-    var position = this.size();
-
-    if (multiplier.x) {
-        newSize.width = frame.width * multiplier.x;
-    }
-
-    if (multiplier.y) {
-        newSize.height = frame.height * multiplier.y;
-    }
-
-    this.setSize(newSize);
-
-}
-
-Window.prototype.occupyTopHalf = function () {
-
-    this.divide({ y: 0.5, x: 1 });
-}
-
-
-/* Mixed Bindings */
-
-keys.push(Phoenix.bind('\\', mash, function () {
-  var nvim_qt = App.get('nvim-qt');
-  if(!nvim_qt)
-    //App.launch('nvim-qt');
-    Command.run('/bin/sh', ['/Volumes/Home/bin/nvq']);
+var increment_movement = 10;
+
+
+/* Mixed Bindings {{{1 */
+
+// Key.on('\\', ctrl_alt , function () {
+/*
+ * Check if nvim-qt is running if it is running toggle it's focus.
+ * If nvim-qt is not running check for MacVim and toggle it's focus.
+ * If none is running run nvim-qt
+ */
+Key.on('return', ctrl_alt , function () {
+	var nvim_qt = App.get('nvim-qt');
+	var MacVim = App.get('MacVim');
+	if(!nvim_qt) {
+		//PATH="/usr/local/sbin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Volumes/Home/.cargo/bin:/Volumes/Home/bin:/Volumes/Home/.local/bin:/Volumes/Home/.composer/vendor/bin:/Volumes/Home/Library/Developer/Xamarin/android-sdk-macosx/platform-tools:/usr/local/opt/go/libexec/bin:/usr/local/Cellar/php56/5.6.16/bin:/Volumes/Home/Development/go/bin" /Volumes/Home/Development/Applications/neovim-qt/build/bin/nvim-qt &
+		//App.launch('nvim-qt');
+		if(!MacVim){ //Only Run nvim-qt if MacVim is not running
+			//Task.run('/bin/sh', ['/Volumes/Home/bin/nvq']);
+			//new Task('/bin/sh', ['/Volumes/Home/bin/nvq']);
+			App.launch('nvim-qt');
+		}
+		else {
+			if(MacVim.isActive()) {
+				MacVim.hide();
+			}
+			else if(MacVim.isHidden()) {
+				MacVim.show();
+				MacVim.focus();
+			}
+			else {
+				MacVim.focus();
+			}
+		}
+	}
+	else {
+		if(nvim_qt.isActive()) {
+			nvim_qt.hide();
+		}
+		else if(nvim_qt.isHidden()) {
+			nvim_qt.show();
+			nvim_qt.focus();
+		}
+		else {
+			nvim_qt.show();
+			nvim_qt.focus();
+		}
+	}
+});
+
+
+Key.on('delete', ctrl_alt , function () {
+  var firefox = App.get('FirefoxDeveloperEdition');
+  if(!firefox)
+    App.launch('FirefoxDeveloperEdition');
   else
-    nvim_qt.focus();
-}));
+    if(firefox.isActive())
+      firefox.hide();
+    else if(firefox.isHidden()) {
+      firefox.show();
+      firefox.focus();
+    }
+    else
+      firefox.focus();
+});
+
+
+Key.on('home', mash , function () {
+  var finder = App.get('Finder');
+  if(!finder)
+    App.launch('Finder');
+  else
+    if(finder.isActive())
+      finder.hide();
+    else if(finder.isHidden()) {
+      finder.show();
+      finder.focus();
+    }
+    else
+      finder.focus();
+});
+
+
+function alert(message, window) {
+  var window = Window.focused().screen().visibleFrameInRectangle();
+  var modal = new Modal();
+  //modal.origin = {x:window.width/2, y:window.height/2};
+  modal.message = message;
+  modal.duration = 2;
+  var center_hor = window.width/2 - modal.frame().width/2;
+  var center_ver = window.height/2 - modal.frame().height/2
+  modal.origin={x:center_hor, y:center_ver};
+  modal.show();
+}
+
+//Key.on('end', mash , function () {
+  //alert("hello yy");
+//});
+
+
+
+
+
+Key.on('z', [ 'ctrl', 'shift' ], function () {
+
+  var screen = Screen.main().flippedVisibleFrame();
+  var window = Window.focused();
+
+  if (window) {
+    window.setTopLeft({
+      x: screen.x + (screen.width / 2) - (window.frame().width / 2),
+      y: screen.y + (screen.height / 2) - (window.frame().height / 2)
+    });
+  }
+});
+

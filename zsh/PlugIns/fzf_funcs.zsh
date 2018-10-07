@@ -3,15 +3,27 @@
 
 # Setting ag as the default source for fzf
 # Now fzf (w/o pipe) will use ag instead of find
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
+#export FZF_DEFAULT_COMMAND='ag -l -g ""'
+
+# --files: List files that would be searched but do not search
+# # --no-ignore: Do not respect .gitignore, etc...
+# # --hidden: Search hidden files and folders
+# # --follow: Follow symlinks
+# # --glob: Additional conditions for search (in this case ignore everything in
+# the .git/ folder)
+#
+ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+export FZF_DEFAULT_OPTS="--history=/Volumes/MacOS/Users/juju/.fzf_history --bind 'Ú:jump,‰:jump-accept'"
 
 
 alias fzalias='alias | fzf -x --cycle'
 alias ja=fzalias
+
+alias jfasd='cd $(fasd | fzf | awk {'"'"'print $2'"'"'})'
 
 
 # Opening Files {{{
@@ -40,7 +52,7 @@ alias ja=fzalias
 
 # Changing directory {{{
     # fd - cd to selected directory
-    jd() {
+    jcdd() {
       local dir
       dir=$(find ${1:-*} -path '*/\.*' -prune \
                       -o -type d -print 2> /dev/null | fzf +m) &&
@@ -54,13 +66,13 @@ alias ja=fzalias
     }
 
     # fda - including hidden directories
-    jda() {
+    jcda() {
       local dir
       dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
     }
 
     # cdf - cd into the directory of the selected file
-    jcf() {
+    jcdf() {
       local file
       local dir
       file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
@@ -78,12 +90,12 @@ alias ja=fzalias
 
 # history {{{
     # fh - repeat history
-    jh() {
+    jhe() {
       eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
     }
 
     # fh - repeat history
-    jho() {
+    jh() {
       print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
     }
 # history }}}
@@ -105,7 +117,7 @@ alias ja=fzalias
 # Git {{{
 
     # fbr - checkout git branch
-    jco() {
+    jgco() {
       local branches branch
       branches=$(git branch) &&
       branch=$(echo "$branches" | fzf +m) &&
@@ -113,7 +125,7 @@ alias ja=fzalias
     }
 
     # fbr - checkout git branch (including remote branches)
-    jcO() {
+    jgcO() {
       local branches branch
       branches=$(git branch --all | grep -v HEAD) &&
       branch=$(echo "$branches" |
@@ -122,7 +134,7 @@ alias ja=fzalias
     }
 
     # fco - checkout git branch/tag
-    jcot() {
+    jgcot() {
       local tags branches target
       tags=$(
         git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
@@ -136,16 +148,63 @@ alias ja=fzalias
       git checkout $(echo "$target" | awk '{print $2}')
     }
 
+
+    jgd(){
+      local files file_modified file_deleted file_stage file_new
+
+      file_modified=$(git ls-files --modified ) &&
+      if [ "$file_modified" = "" ]; then file_modified=""; else file_modified="\e[32m$file_modified\n"; fi &&
+      file_stage=$(git diff --cached --name-only ) &&
+      if [ "$file_stage" = "" ]; then file_stage=""; else file_stage="\e[33m$file_stage\n"; fi &&
+      file_deleted=$(git ls-files --deleted ) &&
+      if [ "$file_deleted" = "" ]; then file_deleted=""; else file_deleted="\e[31m$file_deleted\n"; fi &&
+      file_new=$(git ls-files --others --exclude-standard ) &&
+      if [ "$file_new" = "" ]; then file_new=""; else file_new="\e[34m$file_new"; fi &&
+      files="$file_modified$file_stage$file_deleted$file_new"
+
+      echo -e $files | fzf --reverse --ansi \
+       --bind 'Ctrl-u:execute: git reset -q HEAD {} && echo "Untrack: {}"' \
+       --bind 'Ctrl-a:execute: git add {} && echo "Track: {}"' \
+       --bind 'Ctrl-l:execute: git diff --color=always HEAD {} | diff-so-fancy' \
+       --header "^a:add,^u:del,^l:diff" \
+       --color dark \
+       --preview-window right:50% \
+       --preview 'git diff  --color=always HEAD $@ {} | diff-so-fancy'
+    }
+
+
+
     # fcoc - checkout git commit
-    jcoc() {
+    jgcoc() {
       local commits commit
       commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
       commit=$(echo "$commits" | fzf --tac +s +m -e) &&
       git checkout $(echo "$commit" | sed "s/ .*//")
     }
 
+    # fcoc - show git commit
+    jgs() {
+      local commits commit
+      commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+      commit=$(echo "$commits" | fzf --ansi --no-sort --reverse --tiebreak=index --tac +s +m -e) &&
+      git show $(echo "$commit" | sed "s/ .*//")
+    }
+
     # fshow - git commit browser
     jgl() {
+      git log --graph --color=always \
+        --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+      fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+        --header "Press CTRL-S to toggle sort" \
+        --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+      xargs -I % sh -c 'git show --color=always % | head -$LINES'" \
+        --bind "enter:execute:echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
+      xargs -I % sh -c 'nvim fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty'"
+      #xargs -I % sh -c 'nvim -c \"e fugitive://\$(git rev-parse --show-toplevel)/.git//% < /dev/tty\"'"
+    }
+
+    # fshow - git commit browser
+    jglo() {
       local out sha q
       while out=$(
           git log --decorate=short --graph --oneline --color=always |
@@ -159,7 +218,7 @@ alias ja=fzalias
 
     # fcs - get git commit sha
     # example usage: git rebase -i `fcs`
-    jcsh() {
+    jgsha() {
       local commits commit
       commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
       commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
@@ -228,8 +287,7 @@ alias ja=fzalias
     #}
 
 
-    unalias z
-    z() {
+    j() {
       if [[ -z "$*" ]]; then
         cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
       else
@@ -238,12 +296,15 @@ alias ja=fzalias
       fi
     }
 
-    zzz() {
-      cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q $_last_z_args)"
+    jj() {
+			   if [ "$1" != "" ]
+    then
+      cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q $1)"
+    else
+      cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf )"
+    fi
 
     }
-    alias j=z
-    alias jj=zzz
 #z }}}
 
 # chrome history {{{
@@ -275,8 +336,9 @@ alias ja=fzalias
       fi
       zle redisplay
     }
-    zle     -N    fzf-locate-widget
-    bindkey '\ei' fzf-locate-widget
+    #zle     -N    fzf-locate-widget
+    #bindkey '\ei' fzf-locate-widget
+
 
 
 # locate }}}
@@ -326,3 +388,18 @@ alias ja=fzalias
   #--color fg:252,bg:233,hl:67,fg+:252,bg+:235,hl+:81
   #--color info:144,prompt:161,spinner:135,pointer:135,marker:118
 #'
+bindkey "Ú" fzf-history-widget
+
+    fzf-find-widget() {
+      local selected
+      if selected=$(ag -l -g "" | fzf -q "$LBUFFER"); then
+        LBUFFER=$selected
+      fi
+      zle redisplay
+    }
+    zle     -N    fzf-find-widget
+    bindkey '^r' fzf-find-widget
+
+
+
+    alias jga='ga $(jgd)'

@@ -1,5 +1,6 @@
-# tmux attach &> /dev/null 
-# if [[ ! $TERM =~ screen ]]; then; exec tmux; fi
+#tmux attach &> /dev/null || tmux &> /dev/null
+ #tmux attach &> /dev/null 
+ #if [[ ! $TERM =~ screen ]]; then; exec tmux; fi
 
 
 source ~/dotfiles/zsh/setopt.zsh
@@ -20,3 +21,7 @@ source ~/dotfiles/zsh/aliases.zsh
 
 source ~/dotfiles/zsh/keybindings.zsh
 
+# zsh: Place this in .zshrc after "source /Users/georgen/.iterm2_shell_integration.zsh".
+iterm2_print_user_vars() {
+  iterm2_set_user_var neovim_tabcount $(launchctl getenv neovim_tabcount)
+}

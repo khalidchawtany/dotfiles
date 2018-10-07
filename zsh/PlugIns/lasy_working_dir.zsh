@@ -1,6 +1,6 @@
 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
-   ZSH_CACHE_DIR="/Volumes/Home/dotfiles/zsh/.tmp/"
+   ZSH_CACHE_DIR="/Volumes/MacOS/Users/juju/dotfiles/zsh/.tmp/"
 fi
 
 #{{{ Restore Last Working Dir

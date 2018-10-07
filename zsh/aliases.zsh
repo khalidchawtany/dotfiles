@@ -115,8 +115,13 @@ fi
 
 
   # Basic directory navigation
-  alias cdd='cd ~/dotfiles/'
+  alias cdc='cd ~/.config/'
   alias cdv='cd ~/.config/nvim'
+  alias cd.='cd ~/dotfiles/'
+  alias cdz='cd ~/dotfiles/zsh'
+  alias cdd='cd ~/Development/'
+  alias cdp='cd ~/Projects'
+  alias cds='cd ~/Development/Sites'
 
   alias -- -='cd -'
   alias ..='cd ..'
@@ -203,24 +208,32 @@ fi
   alias mysql_fix_pid_error='unset TMPDIR && mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp'
   alias mysql_fix_pid_error_generic='mysql_install_db --verbose --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp'
 
-  alias adb=/Volumes/Home/Library/Developer/Xamarin/android-sdk-macosx/platform-tools/adb
+  alias adb=~/Library/Developer/Xamarin/android-sdk-macosx/platform-tools/adb
 
   alias angular_js_example='cd  ~/Development/Libraries/angular-phonecat && npm start'
   alias bootstrap_docs='cd ~/Development/Libraries/bootstrap && open -a safari http://0.0.0.0:9001 && jekyll serve '
 
   alias neovim.as='/opt/homebrew-cask/Caskroom/atom-shell/0.19.5/Atom.app/Contents/MacOS/Atom ~/Development/Libraries/neovim.as'
+  alias link_dein_to_plug='rm -f ~/.config/nvim/plugged/* && find ~/.config/nvim/dein/repos/github.com/*/ -maxdepth 1 -mindepth 1 -type d -exec ln -s "{}" ~/.config/nvim/plugged \;'
 
-  alias cscr='/Volumes/Home/bin/cscreen -l | perl -lane "print $F[0] if $F[1] == 2" | xargs -I id /Volumes/Home/bin/cscreen -i id -p'
+  alias cscr='~/bin/cscreen -l | perl -lane "print $F[0] if $F[1] == 2" | xargs -I id ~/bin/cscreen -i id -p'
 
 
 
 #}}} _Utils
 
+# Django {{{
+  alias dj='python3.5 ./manage.py'
+  alias djr='python3.5 ./manage.py runserver'
+  alias djm='django-admin'
+  alias dja='django-admin'
+#}}} _Django
 
 # Laravel {{{
 
   alias artisan='php artisan'
   alias la4='php artisan'
+  alias la4r='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
   alias la4cache='php artisan cache:clear'
   alias la4dump='php artisan dump-autoload'
   alias la4routes='php artisan routes'
@@ -235,6 +248,11 @@ fi
   alias g:s='php artisan generate:scaffold'
   alias g:se='php artisan generate:seed'
   alias g:v='php artisan generate:view'
+  alias lm:m='php artisan module:make'
+  alias lm:mm='php artisan module:make-model'
+  alias lm:mc='php artisan module:make-controller'
+  alias lm:mi='php artisan module:make-migration'
+  alias lm='php artisan module:'
 
 #}}} _Laravel
 
@@ -274,8 +292,9 @@ fi
 
 
   # Checkout
-  alias gcom='git checkout master'
   alias gco='git checkout'
+  alias gcom='git checkout master'
+  alias gcob='git checkout -b '
 
 
   # Commit
@@ -284,9 +303,12 @@ fi
   alias gcm='git commit -m'
   alias gcam='git commit -v -a -m'
   alias 'gc!'='git commit -v --amend'
-  alias 'gcm!'='git commit --amend -m'
   alias 'gca!'='git commit -v -a --amend'
-  #alias gc!='git commit --amend'
+  alias 'gcm!'='git commit --amend -m'
+  alias 'gcam!'='git commit -v -a --amend -m'
+  alias 'gcn!'='git commit -v --amend --no-edit'
+  alias 'gcan!'='git commit -v -a --amend --no-edit'
+  #alias gc     != 'git commit --amend'
 
 
   # Diff
@@ -325,6 +347,8 @@ fi
   alias gplr='git pull --rebase'
   alias gplrp='git pull --rebase && git push'
 
+  #Fetch
+  alias gf='git fetch'
 
   # Push
   alias gpu='git push'
@@ -379,9 +403,10 @@ fi
 
 
   # Utils
+  alias github_update_recursively='find . -name .git -type d | xargs -n1 -P4 -I% git --git-dir=% --work-tree=%/.. remote update -p'
   alias github_update_reset_to_match_online='git fetch origin && git reset --hard origin/master'
-  alias github_get_organization_repos=' curl -s https://api.github.com/orgs/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
-  alias github_get_user_repos=' curl -s https://api.github.com/users/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
+  alias github_get_organization_repos='curl -s https://api.github.com/orgs/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
+  alias github_get_user_repos='curl -s https://api.github.com/users/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
   # cd in to root
   alias grt='cd $(git rev-parse --show-toplevel || echo ".")'
   # rebase master on this branch
@@ -444,20 +469,20 @@ fi
 #}}} _rsync
 
 
-alias oi=/Volumes/Home/Development/Libraries/ContinuousTests/_Console_OI/oi
-alias autotest=/Volumes/Home/Development/Libraries/ContinuousTests/ContinuousTests.Console.Binaries/AutoTest.Console.exe
-alias autoTestCSharp='MONO_MANAGED_WATCHER=false /Volumes/Home/Development/Libraries/ContinuousTests/_Console_OI/oi process  start /Volumes/Home/Development/Libraries/ContinuousTests/ContinuousTests.Console.Binaries/AutoTest.Console.exe `pwd`'
-alias ct='autoTestCSharp | gawk -f /Volumes/Home/dotfiles/nvim/testnet.awk'
+alias oi=~/Development/Libraries/ContinuousTests/_Console_OI/oi
+alias autotest=~/Development/Libraries/ContinuousTests/ContinuousTests.Console.Binaries/AutoTest.Console.exe
+alias autoTestCSharp='MONO_MANAGED_WATCHER=false ~/Development/Libraries/ContinuousTests/_Console_OI/oi process  start ~/Development/Libraries/ContinuousTests/ContinuousTests.Console.Binaries/AutoTest.Console.exe `pwd`'
+alias ct='autoTestCSharp | gawk -f ~/dotfiles/nvim/testnet.awk'
 
 alias android_kitchen='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" && cd ~/Development/Android/Development/Android-Kitchen && ./menu'
 
+alias p="phpunit"
+alias pf="phpunit --filter="
 
 alias zz=exit
 alias a=alias
 alias h='history'
 alias help='man'
-# alias j='jobs'
-alias p='ps -f'
 alias unexport='unset'
 alias whereami=display_info
 alias which-command=whence
@@ -479,9 +504,11 @@ alias updatedb=/usr/libexec/locate.updatedb
 
 
 # Neovim
-alias nv='nvim'
+alias nv='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
+alias nvi='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket ~/Development/Applications/neovim/neovim/build/bin/nvim'
 alias :='~/dotfiles/nvim/nvimex.py'
-alias nv_profile='cd ~/dotfiles/nvim/vim-plugins-profile-master/ && sh vim-plugins-profile.sh && open . && popd'
+alias nv_profile='cd ~/dotfiles/nvim/vim-plugins-profile/ && sh vim-plugins-profile.sh && open . && popd'
+alias nv_rprofile='ruby ~/dotfiles/nvim/vim-plugins-profile/vim-plugins-profile.rb'
 #atom
 alias nval='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim | atom --include-deprecated-apis .'
 alias nva='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim'
@@ -489,6 +516,9 @@ alias nva='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvi
 alias nvim_coredump="ulimit -c unlimited && nvim"
 alias nvim_gdb="gdb nvim"
 alias nvim_make_debug="make CMAKE_BUILD_TYPE=Debug"
+
+
+alias termpdf='~/Development/Applications/termpdf/termpdf'
 
 
 # Youtube-dl
@@ -563,7 +593,7 @@ alias brew_fix_links='brew linkapps; find ~/Applications -type l | while read f;
 # alias ru='rails runner'
 # alias jimweirich=rake
 # alias srake='noglob sudo rake'
-# alias rvm-restart='rvm_reload_flag=1 source '\''/Volumes/Home/.rvm/scripts/rvm'\'
+# alias rvm-restart='rvm_reload_flag=1 source '\''~/.rvm/scripts/rvm'\'
 # alias sc='ruby script/console'
 # alias sg='ruby script/generate'
 # alias sp='ruby script/plugin'

@@ -1,6 +1,6 @@
 
 #Set Z data path
-#export _Z_DATA='/Volimes/Home/dotfiles/zsh/.tmp/.z'
+#export _Z_DATA='/Volumes/MacOS/Users/juju/dotfiles/zsh/.tmp/.z'
 source ~/dotfiles/zsh/PlugIns/z/z.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
