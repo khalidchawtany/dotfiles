@@ -208,7 +208,6 @@ fi
   alias mysql_fix_pid_error='unset TMPDIR && mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp'
   alias mysql_fix_pid_error_generic='mysql_install_db --verbose --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp'
 
-  alias adb=~/Library/Developer/Xamarin/android-sdk-macosx/platform-tools/adb
 
   alias angular_js_example='cd  ~/Development/Libraries/angular-phonecat && npm start'
   alias bootstrap_docs='cd ~/Development/Libraries/bootstrap && open -a safari http://0.0.0.0:9001 && jekyll serve '
