@@ -313,6 +313,7 @@ fi
   # Diff
   alias gd='git diff'
   alias gdc='git diff --cached'
+  alias gdcs='git diff --cached --stat'
   alias gdt='git difftool'
 
 
