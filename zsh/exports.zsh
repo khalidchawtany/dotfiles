@@ -36,6 +36,7 @@ export _Z_DATA=~/dotfiles/temp/z_jump
 export GOPATH=$HOME/Development/go
 
 export ANDROID_SDK_ROOT="/Users/juju/Library/Android/sdk"
+export  ANDROID_HOM="/Users/juju/Library/Android"
 
 export PATH=$PATH:$GOPATH/bin
 export PATH="$PATH:/Users/juju/.composer/vendor/squizlabs/php_codesniffer/bin"
@@ -45,3 +46,4 @@ export PATH="$PATH:/Users/juju/bin"
 export PATH="$PATH:/opt/X11/bin"
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 export PATH="$PATH:/usr/local/sbin"
+export PATH="$PATH:/Users/juju/go/bin"

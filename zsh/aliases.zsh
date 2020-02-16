@@ -417,7 +417,9 @@ fi
 
 
   ## alias gclean='git reset --hard && git clean -dfx'
-  #alias gcp='git cherry-pick'
+  alias gcp='git cherry-pick'
+  alias gcpc='git cherry-pick --continue'
+  alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
   #alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
   #alias ggpull='git pull origin $(current_branch)'
   #alias ggpur='git pull --rebase origin $(current_branch)'
@@ -427,7 +429,6 @@ fi
   #alias gpoat='git push origin --all && git push origin --tags'
   #alias gsps='git show --pretty=short --show-signature'
   #alias gvt='git verify-tag'
-  #alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
   #alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 
 
@@ -476,8 +477,14 @@ alias ct='autoTestCSharp | gawk -f ~/dotfiles/nvim/testnet.awk'
 
 alias android_kitchen='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" && cd ~/Development/Android/Development/Android-Kitchen && ./menu'
 
-alias p="phpunit"
-alias pf="phpunit --filter="
+alias deploy='rm -f android/app/src/main/assets/index.android.bundle && npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..'
+
+alias specs='python ~/Development/org2opml.py ~/Projects/PHP/ERP\ Docs/Specs/specs.org ~/Projects/PHP/ERP\ Docs/Specs/specs.opml && open ~/Projects/PHP/ERP\ Docs/Specs/specs.opml'
+ 
+alias pp="phpunit"
+alias ppf="phpunit --filter="
+alias p="./vendor/phpunit/phpunit/phpunit"
+alias pf="./vendor/phpunit/phpunit/phpunit --filter="
 
 alias zz=exit
 alias a=alias
