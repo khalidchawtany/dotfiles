@@ -480,7 +480,14 @@ alias android_kitchen='export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PAT
 alias deploy='rm -f android/app/src/main/assets/index.android.bundle && npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..'
 
 alias specs='python ~/Development/org2opml.py ~/Projects/PHP/ERP\ Docs/Specs/specs.org ~/Projects/PHP/ERP\ Docs/Specs/specs.opml && open ~/Projects/PHP/ERP\ Docs/Specs/specs.opml'
- 
+
+function opml() {
+    local filename=$1:t:r
+    local filepath=$1:h
+    rm -f "/tmp/$filename.opml"
+    python ~/Development/org2opml.py "$1" && mv "$filepath/$filename.opml" "/tmp/$filename.opml" && open "/tmp/$filename.opml"
+}
+
 alias pp="phpunit"
 alias ppf="phpunit --filter="
 alias p="./vendor/phpunit/phpunit/phpunit"
