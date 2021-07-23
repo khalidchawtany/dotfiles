@@ -17,7 +17,7 @@
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-export FZF_DEFAULT_OPTS="--history=/Volumes/MacOS/Users/juju/.fzf_history --bind 'Ú:jump,‰:jump-accept'"
+export FZF_DEFAULT_OPTS="--history=/Users/juju/.fzf_history --bind 'Ú:jump,‰:jump-accept'"
 
 
 alias fzalias='alias | fzf -x --cycle'

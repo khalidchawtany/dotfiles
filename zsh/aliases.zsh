@@ -2,6 +2,8 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
 
+alias tomcat=JRE_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre" JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home" catalina run
+
 
 # colorize man {{{
 man() {
@@ -218,22 +220,43 @@ fi
   alias cscr='~/bin/cscreen -l | perl -lane "print $F[0] if $F[1] == 2" | xargs -I id ~/bin/cscreen -i id -p'
 
 
+  alias use_php72='export PATH="/usr/local/opt/php@7.2/bin:$PATH" && export PATH="/usr/local/opt/php@7.2/sbin:$PATH"'
+  alias use_php73='export PATH="/usr/local/opt/php@7.3/bin:$PATH" && export PATH="/usr/local/opt/php@7.3/sbin:$PATH"'
+  alias use_php74='export PATH="/usr/local/opt/php@7.4/bin:$PATH" && export PATH="/usr/local/opt/php@7.4/sbin:$PATH"'
+  alias use_php80='export PATH="/usr/local/opt/php@8.0/bin:$PATH" && export PATH="/usr/local/opt/php@8.0/sbin:$PATH"'
+  alias mycomposer="COMPOSER_MEMORY_LIMIT=-1 ./vendor/composer/composer/bin/composer"
+
+  alias rebase_erp="git rebase l7 master && gco dist && git rebase master -Xours"
+
+ alias valet_restart="rm ~/.config/valet/valet.sock && valet restart"
+ alias clean_ds="find . -name '.DS_Store' -type f -delete"
+
+
 
 #}}} _Utils
 
-# Django {{{
-  alias dj='python3.5 ./manage.py'
-  alias djr='python3.5 ./manage.py runserver'
+# Python & Django {{{
+  alias p3='./venv/bin/python3 '
+  alias pa='source ./venv/bin/activate '
+
+  alias dj='python3 ./manage.py'
+  alias djr='python3 ./manage.py runserver'
+  alias djlr='python3 ./manage.py livereload'
   alias djm='django-admin'
   alias dja='django-admin'
+  alias djs='python3 ./manage.py shell'
 #}}} _Django
 
 # Laravel {{{
 
   alias artisan='php artisan'
+  function lao { la4 october:$1 }
+  function lap { la4 plugin:$1 }
+  alias la4p='php artisan plugin:'
   alias la4='php artisan'
   alias la4r='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
   alias la4cache='php artisan cache:clear'
+  alias la4c='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
   alias la4dump='php artisan dump-autoload'
   alias la4routes='php artisan routes'
   alias bob='php artisan bob::build'
@@ -894,6 +917,9 @@ alias brew_fix_links='brew linkapps; find ~/Applications -type l | while read f;
 
 ##compdef _cd-to-vim-bundle cd-to-vim-bundle
 #Aliases from seletskey}}}
+
+alias svim="rm -f  ~/.config/nvim && ln -s ~/.config/nvim_vimscript ~/.config/nvim && mv ~/.local/share/nvim/site ~/.local/share/nvim/sitex"
+alias slua="rm -f  ~/.config/nvim && ln -s ~/.config/nvim_lua ~/.config/nvim && mv ~/.local/share/nvim/sitex ~/.local/share/nvim/site"
 
 
 
