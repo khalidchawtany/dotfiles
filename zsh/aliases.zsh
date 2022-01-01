@@ -250,12 +250,10 @@ fi
 # Laravel {{{
 
   alias artisan='php artisan'
-  function lao { la4 october:$1 }
-  function lap { la4 plugin:$1 }
-  alias la4p='php artisan plugin:'
+  function la4o { php artisan october:$@ }
+  function la4p { php artisan plugin:$@ }
   alias la4='php artisan'
   alias la4r='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
-  alias la4cache='php artisan cache:clear'
   alias la4c='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
   alias la4dump='php artisan dump-autoload'
   alias la4routes='php artisan routes'
@@ -364,6 +362,8 @@ fi
   alias gm='git merge'
   alias gmt='git mergetool --no-prompt'
 
+  alias docker_start='docker-machine start default && eval $(docker-machine env)'
+
 
   # Pull
   alias gpl='git pull'
@@ -376,6 +376,7 @@ fi
   # Push
   alias gpu='git push'
   alias gpuo='git push origin'
+  alias gpua='git push --all'
 
 
   # Rebase

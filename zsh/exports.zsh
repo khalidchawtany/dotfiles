@@ -51,6 +51,9 @@ export PATH="$PATH:/Users/juju/.cargo/bin"
 export PATH="$PATH:/Users/juju/.config/nvim/dein/repos/github.com/liuchengxu/vim-clap/target/release"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 # export PATH="$PATH:/Users/juju/.config/nvim_lua/lsp/phpactor/bin"
+export PATH="$PATH:/Users/juju/.config/nvim_lua/lsp/phpactor/bin"
+export PATH="$PATH:/Users/juju/Library/Android/sdk/emulator/"
+
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
