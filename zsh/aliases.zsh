@@ -2,6 +2,8 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
 
+alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release MACOSX_DEPLOYMENT_TARGET=10.13 DEPS_CMAKE_FLAGS=\"-DCMAKE_CXX_COMPILER=$(xcrun -find c++)\" && make install && popd"
+
 alias tomcat=JRE_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre" JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home" catalina run
 
 
@@ -185,7 +187,7 @@ fi
 # Find / Grep {{{
 
   alias afind='ack-grep -il'
-  alias fd='find . -type d -name'
+  # alias fdd='find . -type d -name'
   alias ff='find . -type f -name'
 
   alias grep='grep --color'
@@ -250,13 +252,16 @@ fi
 # Laravel {{{
 
   alias artisan='php artisan'
-  function la4o { php artisan october:$@ }
-  function la4p { php artisan plugin:$@ }
-  alias la4='php artisan'
-  alias la4r='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
-  alias la4c='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
-  alias la4dump='php artisan dump-autoload'
-  alias la4routes='php artisan routes'
+  function l:o { php artisan october:$@ }
+  function l:p { php artisan plugin:$@ }
+  function l: { php artisan $@ }
+  # alias la4='php artisan'
+  alias l:mi='php artisan migrate'
+  alias l:s='php artisan serve'
+  alias l:rs='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
+  alias l:cc='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
+  alias l:du='php artisan dump-autoload'
+  alias l:r='php artisan routes'
   alias bob='php artisan bob::build'
   alias g:c='php artisan generate:controller'
   alias g:db='php artisan db:'

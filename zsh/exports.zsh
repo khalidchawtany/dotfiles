@@ -3,6 +3,10 @@ export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=Gxfxcxdxbxegedabagacad
 
+
+# set react native editor to neovim-qt
+export REACT_EDITOR="nvr"
+
 export XDEBUG_CONFIG="idekey=VSCODE"
 
 # Enable color in grep
