@@ -382,6 +382,8 @@ fi
   alias gpu='git push'
   alias gpuo='git push origin'
   alias gpua='git push --all'
+  alias gpuf='git push -f'
+  alias gpuaf='git push -f --all'
 
 
   # Rebase
