@@ -250,6 +250,10 @@ fi
 #}}} _Django
 
 # Laravel {{{
+function gbD { git branch -D $@ }
+function gbDo { git push origin --delete $@ }
+function gbDb { git branch -D $@ && git push origin --delete $@ }
+function gbDa { git branch -D $@ && git push origin --delete $@ }
 
   alias artisan='php artisan'
   function l:o { php artisan october:$@ }
@@ -258,6 +262,9 @@ fi
   # alias la4='php artisan'
   alias l:mi='php artisan migrate'
   alias l:s='php artisan serve'
+  alias l72:s='/usr/local/opt/php@7.2/bin/php artisan serve'
+  alias l73:s='/usr/local/opt/php@7.3/bin/php artisan serve'
+  alias l74:s='/usr/local/opt/php@7.4/bin/php artisan serve'
   alias l:rs='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
   alias l:cc='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
   alias l:du='php artisan dump-autoload'
