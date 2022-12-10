@@ -4,6 +4,8 @@ setopt pushdminus
 
 alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release MACOSX_DEPLOYMENT_TARGET=10.13 DEPS_CMAKE_FLAGS=\"-DCMAKE_CXX_COMPILER=$(xcrun -find c++)\" && make install && popd"
 
+alias neovim_qt_build='cd ~/Development/Applications/neovim-qt/neovim-qt/ && rm -fr ~/Development/Applications/neovim-qt/neovim-qt/build/* && export PATH="/usr/local/opt/qt@5/bin:$PATH" && export LDFLAGS="-L/usr/local/opt/qt@5/lib" && export CPPFLAGS="-I/usr/local/opt/qt@5/include" && export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig" && cmake -B ./build -DCMAKE_INSTALL_PREFIX=/Users/juju/Development/Applications/neovim-qt/neovim-qt/build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ && cmake --build /Users/juju/Development/Applications/neovim-qt/neovim-qt/build/'
+
 alias tomcat=JRE_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre" JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home" catalina run
 
 
@@ -124,7 +126,11 @@ fi
   alias cd.='cd ~/dotfiles/'
   alias cdz='cd ~/dotfiles/zsh'
   alias cdd='cd ~/Development/'
+  alias cdda='cd ~/Development/Applications/'
   alias cdp='cd ~/Projects'
+  alias cdpp='cd ~/Projects/PHP'
+  alias cdpj='cd ~/Projects/js'
+  alias cdpg='cd ~/Projects/go'
   alias cds='cd ~/Development/Sites'
 
   alias -- -='cd -'
@@ -250,17 +256,22 @@ fi
 #}}} _Django
 
 # Laravel {{{
-function gbD { git branch -D $@ }
-function gbDo { git push origin --delete $@ }
-function gbDb { git branch -D $@ && git push origin --delete $@ }
-function gbDa { git branch -D $@ && git push origin --delete $@ }
 
   alias artisan='php artisan'
   function l:o { php artisan october:$@ }
+  function l:om { php artisan october:migrate $@ }
+  function l:m { php artisan make:$@ }
+  alias l:mm="php artisan make:migration"
+  alias l:mc="php artisan make:controller"
+  alias l:mco="php artisan make:component"
+  alias l:ma="php artisan make:model"
+  function l:mf { php artisan make:filament-$@ }
+  function l:mfr { php artisan make:filament-resource $@ }
   function l:p { php artisan plugin:$@ }
   function l: { php artisan $@ }
   # alias la4='php artisan'
   alias l:mi='php artisan migrate'
+  alias l:mir='php artisan migrate:rollback'
   alias l:s='php artisan serve'
   alias l72:s='/usr/local/opt/php@7.2/bin/php artisan serve'
   alias l73:s='/usr/local/opt/php@7.3/bin/php artisan serve'
@@ -268,7 +279,7 @@ function gbDa { git branch -D $@ && git push origin --delete $@ }
   alias l:rs='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
   alias l:cc='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
   alias l:du='php artisan dump-autoload'
-  alias l:r='php artisan routes'
+  alias l:rl='php artisan route:list'
   alias bob='php artisan bob::build'
   alias g:c='php artisan generate:controller'
   alias g:db='php artisan db:'
@@ -304,6 +315,7 @@ function gbDa { git branch -D $@ && git push origin --delete $@ }
 
 # Git {{{
 
+
   # Git
   alias g=git
   alias glc='git config --list'
@@ -321,6 +333,11 @@ function gbDa { git branch -D $@ && git push origin --delete $@ }
   alias gb='git branch'
   alias gba='git branch -a'
   alias gbr='git branch --remote'
+
+  function gbD { git branch -D $@ }
+  function gbDo { git push origin --delete $@ }
+  function gbDb { git branch -D $@ && git push origin --delete $@ }
+  function gbDa { git branch -D $@ && git push origin --delete $@ }
 
 
   # Checkout
@@ -447,6 +464,7 @@ function gbDa { git branch -D $@ && git push origin --delete $@ }
   alias github_get_user_repos='curl -s https://api.github.com/users/`echo $aUser`/repos | ruby -rubygems -e '\''require "json"; JSON.load(STDIN.read).each {|repo| %x[git clone #{repo["git_url"]} ]}'\'' '
   # cd in to root
   alias grt='cd $(git rev-parse --show-toplevel || echo ".")'
+  alias cdg='cd $(git rev-parse --show-toplevel || echo ".")'
   # rebase master on this branch
   alias git_rebase_master_on='git merge --strategy=ours master && git checkout master && git rebase '
   # merge last two commits
