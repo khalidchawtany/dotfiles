@@ -232,6 +232,7 @@ fi
   alias use_php73='export PATH="/usr/local/opt/php@7.3/bin:$PATH" && export PATH="/usr/local/opt/php@7.3/sbin:$PATH"'
   alias use_php74='export PATH="/usr/local/opt/php@7.4/bin:$PATH" && export PATH="/usr/local/opt/php@7.4/sbin:$PATH"'
   alias use_php80='export PATH="/usr/local/opt/php@8.0/bin:$PATH" && export PATH="/usr/local/opt/php@8.0/sbin:$PATH"'
+  alias use_php81='export PATH="/usr/local/opt/php@8.1/bin:$PATH" && export PATH="/usr/local/opt/php@8.1/sbin:$PATH"'
   alias mycomposer="COMPOSER_MEMORY_LIMIT=-1 ./vendor/composer/composer/bin/composer"
 
   alias rebase_erp="git rebase l7 master && gco dist && git rebase master -Xours"
@@ -270,7 +271,9 @@ fi
   function l:p { php artisan plugin:$@ }
   function l: { php artisan $@ }
   # alias la4='php artisan'
+  alias l:t='php artisan tinker'
   alias l:mi='php artisan migrate'
+  alias l:mip='php artisan migrate --pretend'
   alias l:mir='php artisan migrate:rollback'
   alias l:s='php artisan serve'
   alias l72:s='/usr/local/opt/php@7.2/bin/php artisan serve'
@@ -429,6 +432,8 @@ fi
   # Reset
   alias grh='git reset HEAD'
   alias grhh='git reset HEAD --hard'
+  alias gR='git reset '
+  alias gRh='git reset --hard '
 
 
   # Stash
