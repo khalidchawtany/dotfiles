@@ -275,6 +275,7 @@ fi
   alias l:mi='php artisan migrate'
   alias l:mip='php artisan migrate --pretend'
   alias l:mir='php artisan migrate:rollback'
+  alias l:mb='php artisan make:bread '
   alias l:s='php artisan serve'
   alias l72:s='/usr/local/opt/php@7.2/bin/php artisan serve'
   alias l73:s='/usr/local/opt/php@7.3/bin/php artisan serve'
