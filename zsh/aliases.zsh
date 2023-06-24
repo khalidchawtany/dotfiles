@@ -275,13 +275,14 @@ fi
   alias l:mi='php artisan migrate'
   alias l:mip='php artisan migrate --pretend'
   alias l:mir='php artisan migrate:rollback'
+  alias l:mis='php artisan migrate --seed'
   alias l:mb='php artisan make:bread '
   alias l:s='php artisan serve'
   alias l72:s='/usr/local/opt/php@7.2/bin/php artisan serve'
   alias l73:s='/usr/local/opt/php@7.3/bin/php artisan serve'
   alias l74:s='/usr/local/opt/php@7.4/bin/php artisan serve'
   alias l:rs='sudo apachectl stop && sudo php artisan serve --host 0.0.0.0 --port 80'
-  alias l:cc='php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
+  alias l:cc='php artisan route:clear && php artisan cache:clear && php artisan view:clear && php artisan debugbar:clear'
   alias l:du='php artisan dump-autoload'
   alias l:rl='php artisan route:list'
   alias bob='php artisan bob::build'
@@ -326,6 +327,11 @@ fi
   alias gcl='git clone'
 
 
+  # Git work-tree
+  alias gw='git worktree '
+  alias gwa='git worktree add '
+  alias gwr='git worktree remove '
+
   # Add
   alias ga='git add'
   alias gaa='git add .'
@@ -342,6 +348,7 @@ fi
   function gbDo { git push origin --delete $@ }
   function gbDb { git branch -D $@ && git push origin --delete $@ }
   function gbDa { git branch -D $@ && git push origin --delete $@ }
+  function gb2t { git checkout $@ && git tag $@ && git checkout master && git branch -D $@ && git push origin --delete $@ }
 
 
   # Checkout
@@ -370,6 +377,7 @@ fi
   alias gdcs='git diff --cached --stat'
   alias gdt='git difftool'
 
+ function gdbb { git diff $1:$3 $2:$3 }
 
   # GUI
   alias gg='git gui citool'
@@ -963,6 +971,7 @@ alias slua="rm -f  ~/.config/nvim && ln -s ~/.config/nvim_lua ~/.config/nvim && 
 
 
 
-
+# sudo xcode-select --switch /Applications/Xcode.app
+# sudo xcode-select --switch /Library/Developer/CommandLineTools
 
 

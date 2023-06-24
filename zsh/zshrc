@@ -1,5 +1,5 @@
 #tmux attach &> /dev/null || tmux &> /dev/null
- #tmux attach &> /dev/null 
+ #tmux attach &> /dev/null
  #if [[ ! $TERM =~ screen ]]; then; exec tmux; fi
 autoload -Uz compinit
 compinit
@@ -21,6 +21,8 @@ source ~/dotfiles/zsh/plugins_config.zsh
 source ~/dotfiles/zsh/aliases.zsh
 
 source ~/dotfiles/zsh/keybindings.zsh
+
+source ~/dotfiles/zsh/nvims.zsh
 
 # zsh: Place this in .zshrc after "source /Users/georgen/.iterm2_shell_integration.zsh".
 iterm2_print_user_vars() {
