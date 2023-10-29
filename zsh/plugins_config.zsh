@@ -18,6 +18,8 @@ source ~/dotfiles/zsh/PlugIns/lasy_working_dir.zsh
 
 source ~/dotfiles/zsh/PlugIns/colorize.zsh
 
+source ~/dotfiles/zsh/PlugIns/fre.zsh
+
 #source ~/dotfiles/zsh/PlugIns/dir_stack.zsh
 #source ~/dotfiles/zsh/PlugIns/dir_cycle.zsh
 #source ~/dotfiles/zsh/PlugIns/dir_history.zsh

@@ -46,6 +46,7 @@ export PATH=$PATH:$GOPATH/bin
 export PATH="$PATH:/Users/juju/.composer/vendor/squizlabs/php_codesniffer/bin"
 export PATH="$PATH:/Users/juju/.composer/vendor/bin"
 export PATH="$PATH:/Users/juju/.local/bin"
+export PATH="$PATH:/Users/juju/local/bin"
 export PATH="$PATH:/Users/juju/bin"
 export PATH="$PATH:/opt/X11/bin"
 export PATH="$PATH:/usr/local/opt/go/libexec/bin"
@@ -59,5 +60,5 @@ export PATH="$PATH:/Users/juju/.config/nvim_lua/lsp/phpactor/bin"
 export PATH="$PATH:/Users/juju/Library/Android/sdk/emulator/"
 
 
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"

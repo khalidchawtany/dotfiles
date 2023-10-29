@@ -2,7 +2,8 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
 
-alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release MACOSX_DEPLOYMENT_TARGET=10.13 DEPS_CMAKE_FLAGS=\"-DCMAKE_CXX_COMPILER=$(xcrun -find c++)\" && make install && popd"
+# alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release MACOSX_DEPLOYMENT_TARGET=10.13 DEPS_CMAKE_FLAGS=\"-DCMAKE_CXX_COMPILER=$(xcrun -find c++)\" && make install && popd"
+alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release && make install && popd"
 
 alias neovim_qt_build='cd ~/Development/Applications/neovim-qt/neovim-qt/ && rm -fr ~/Development/Applications/neovim-qt/neovim-qt/build/* && export PATH="/usr/local/opt/qt@5/bin:$PATH" && export LDFLAGS="-L/usr/local/opt/qt@5/lib" && export CPPFLAGS="-I/usr/local/opt/qt@5/include" && export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig" && cmake -B ./build -DCMAKE_INSTALL_PREFIX=/Users/juju/Development/Applications/neovim-qt/neovim-qt/build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ && cmake --build /Users/juju/Development/Applications/neovim-qt/neovim-qt/build/'
 
@@ -125,10 +126,11 @@ fi
   alias cdv='cd ~/.config/nvim'
   alias cd.='cd ~/dotfiles/'
   alias cdz='cd ~/dotfiles/zsh'
-  alias cdd='cd ~/Development/'
-  alias cdda='cd ~/Development/Applications/'
+  alias cdd='cd ~/Desktop/'
+  alias cda='cd ~/Development/Applications/'
   alias cdp='cd ~/Projects'
   alias cdpp='cd ~/Projects/PHP'
+  alias cdpy='cd ~/Projects/python'
   alias cdpj='cd ~/Projects/js'
   alias cdpg='cd ~/Projects/go'
   alias cds='cd ~/Development/Sites'
@@ -196,7 +198,6 @@ fi
   # alias fdd='find . -type d -name'
   alias ff='find . -type f -name'
 
-  alias grep='grep --color'
   alias sgrep='grep -R -n -H -C 5 --exclude-dir={.git,.svn,CVS} '
   alias hgrep="fc -El 0 | grep"
 
@@ -249,8 +250,8 @@ fi
   alias pa='source ./venv/bin/activate '
 
   alias dj='python3 ./manage.py'
-  alias djr='python3 ./manage.py runserver'
-  alias djlr='python3 ./manage.py livereload'
+  alias djr='python3 ./manage.py runserver 0.0.0.0:8000'
+  alias djlr='python3 ./manage.py livereload 0.0.0.0:8000'
   alias djm='django-admin'
   alias dja='django-admin'
   alias djs='python3 ./manage.py shell'
@@ -273,6 +274,7 @@ fi
   # alias la4='php artisan'
   alias l:t='php artisan tinker'
   alias l:mi='php artisan migrate'
+  function l:miP { php artisan migrate --path=$@ }
   alias l:mip='php artisan migrate --pretend'
   alias l:mir='php artisan migrate:rollback'
   alias l:mis='php artisan migrate --seed'
