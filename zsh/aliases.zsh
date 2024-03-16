@@ -134,6 +134,9 @@ fi
   alias cdpj='cd ~/Projects/js'
   alias cdpg='cd ~/Projects/go'
   alias cds='cd ~/Development/Sites'
+  alias cdu24='cd /Volumes/Data/Universities/University_2023_2024/'
+  alias cdph='cd /Volumes/Data/Universities/University_2023_2024/Phd'
+  alias cdq='cd /Volumes/Data/Universities/University_2023_2024/Quarto'
 
   alias -- -='cd -'
   alias ..='cd ..'
@@ -228,6 +231,10 @@ fi
 
   alias cscr='~/bin/cscreen -l | perl -lane "print $F[0] if $F[1] == 2" | xargs -I id ~/bin/cscreen -i id -p'
 
+  alias lnvim="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
+  alias nviml="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
+  alias nvl="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
+
 
   alias use_php72='export PATH="/usr/local/opt/php@7.2/bin:$PATH" && export PATH="/usr/local/opt/php@7.2/sbin:$PATH"'
   alias use_php73='export PATH="/usr/local/opt/php@7.3/bin:$PATH" && export PATH="/usr/local/opt/php@7.3/sbin:$PATH"'
@@ -260,6 +267,10 @@ fi
 # Laravel {{{
 
   alias artisan='php artisan'
+
+  function l:db { php artisan db:$@ }
+  function l:dbs { php artisan db:seed $@ }
+  function l:dbsc { php artisan db:seed --class=$@ }
   function l:o { php artisan october:$@ }
   function l:om { php artisan october:migrate $@ }
   function l:m { php artisan make:$@ }
@@ -564,6 +575,8 @@ alias pp="phpunit"
 alias ppf="phpunit --filter="
 alias p="./vendor/phpunit/phpunit/phpunit"
 alias pf="./vendor/phpunit/phpunit/phpunit --filter="
+
+alias jest="./node_modules/.bin/jest"
 
 alias zz=exit
 alias a=alias
