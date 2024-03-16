@@ -21,6 +21,9 @@ export PAGER='less'
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export EDITOR='nvim'
 
+# For luarocks not loading
+export DYLD_LIBRARY_PATH=/usr/local/lib
+
 #export NODE_PATH=/opt/github/homebrew/lib/node_modules
 #export PYTHONPATH=/usr/local/lib/python2.6/site-packages
 # CTAGS Sorting in VIM/Emacs is better behaved with this in place
