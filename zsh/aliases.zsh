@@ -5,7 +5,8 @@ setopt pushdminus
 # alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release MACOSX_DEPLOYMENT_TARGET=10.13 DEPS_CMAKE_FLAGS=\"-DCMAKE_CXX_COMPILER=$(xcrun -find c++)\" && make install && popd"
 alias neovim_upgrade="cd /Users/juju/Development/Applications/neovim && git checkout master && git pull upstream master && git rebase master fold && make distclean && make CMAKE_BUILD_TYPE=Release && make install && popd"
 
-alias neovim_qt_build='cd ~/Development/Applications/neovim-qt/neovim-qt/ && rm -fr ~/Development/Applications/neovim-qt/neovim-qt/build/* && export PATH="/usr/local/opt/qt@5/bin:$PATH" && export LDFLAGS="-L/usr/local/opt/qt@5/lib" && export CPPFLAGS="-I/usr/local/opt/qt@5/include" && export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig" && cmake -B ./build -DCMAKE_INSTALL_PREFIX=/Users/juju/Development/Applications/neovim-qt/neovim-qt/build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ && cmake --build /Users/juju/Development/Applications/neovim-qt/neovim-qt/build/'
+# alias neovim_qt_build='cd ~/Development/Applications/neovim-qt/neovim-qt/ && rm -fr ~/Development/Applications/neovim-qt/neovim-qt/build/* && export PATH="/usr/local/opt/qt@5/bin:$PATH" && export LDFLAGS="-L/usr/local/opt/qt@5/lib" && export CPPFLAGS="-I/usr/local/opt/qt@5/include" && export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig" && cmake -B ./build -DCMAKE_INSTALL_PREFIX=/Users/juju/Development/Applications/neovim-qt/neovim-qt/build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ && cmake --build /Users/juju/Development/Applications/neovim-qt/neovim-qt/build/'
+alias neovim_qt_build='cd ~/Development/Applications/neovim-qt/neovim-qt/ && rm -fr ~/Development/Applications/neovim-qt/neovim-qt/build/* && export PATH="/usr/local/opt/qt@6/bin:$PATH" && export LDFLAGS="-L/usr/local/opt/qt@6/lib" && export CPPFLAGS="-I/usr/local/opt/qt@6/include" && export PKG_CONFIG_PATH="/usr/local/opt/qt@6/lib/pkgconfig" && cmake -B ./build -DCMAKE_INSTALL_PREFIX=/Users/juju/Development/Applications/neovim-qt/neovim-qt/build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DWITH_QT=Qt6 && cmake --build /Users/juju/Development/Applications/neovim-qt/neovim-qt/build/'
 
 alias tomcat=JRE_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/jre" JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home" catalina run
 
@@ -99,19 +100,20 @@ fi
 
   # List direcory contents
 
-  # ls, the common ones I use a lot shortened for rapid fire usage
-  alias l='ls -lFh'           # size,show type,human readable
-  alias la='ls -lAFh'         # long list,show almost all,show type,human readable
-  alias lr='ls -tRFh'         # sorted by date,recursive,show type,human readable
-  alias lt='ls -ltFh'         # long list,sorted by date,show type,human readable
-  alias ll='ls -lh'           # long list
-  alias ldot='ls -ld .*'
-  alias ls='ls -G'            # ls with colors
-  alias lS='ls -1FSsh'
-  alias lart='ls -1Fcart'
-  alias lrt='ls -1Fcrt'
-  alias lg='ls | grep -i'     # list and grep
-  alias lag='ls -a | grep -i' # list and grep including hidden
+
+  # eza (better 'ls')
+  alias l="eza --icons"
+  alias ls="eza --icons"
+  alias ll="eza -lg --icons"
+  alias la="eza -lag --icons"
+  alias lt="eza -lTg --icons"
+  alias lt1="eza -lTg --level=1 --icons"
+  alias lt2="eza -1Tg --level=2 --icons"
+  alias lt3="eza -lTg --level=3 --icons"
+  alias lta="eza -lTag --icons"
+  alias lta1="eza -lTag --level=1 --icons"
+  alias lta2="eza -lTag --level=2 --icons"
+  alias lta3="eza -lTag --level=3 --icons"
 
   alias md='mkdir -p'
   alias rd=rmdir
@@ -211,10 +213,6 @@ fi
 
   alias zshrc='nv ~/.zshrc' # Quick access to the ~/.zshrc file
 
-  alias start_apache='sudo apachectl start'
-  alias restart_apache='sudo apachectl restart'
-  alias stop_apache='sudo apachectl stop'
-
   alias start_mysql='sudo mysql.server start'
   alias restart_mysql='sudo mysql.server restart'
   alias stop_mysql='sudo mysql.server shutdown'
@@ -227,13 +225,18 @@ fi
   alias bootstrap_docs='cd ~/Development/Libraries/bootstrap && open -a safari http://0.0.0.0:9001 && jekyll serve '
 
   alias neovim.as='/opt/homebrew-cask/Caskroom/atom-shell/0.19.5/Atom.app/Contents/MacOS/Atom ~/Development/Libraries/neovim.as'
-  alias link_dein_to_plug='rm -f ~/.config/nvim/plugged/* && find ~/.config/nvim/dein/repos/github.com/*/ -maxdepth 1 -mindepth 1 -type d -exec ln -s "{}" ~/.config/nvim/plugged \;'
 
   alias cscr='~/bin/cscreen -l | perl -lane "print $F[0] if $F[1] == 2" | xargs -I id ~/bin/cscreen -i id -p'
 
-  alias lnvim="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
-  alias nviml="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
-  alias nvl="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket  NVIM_APPNAME=nvim_lazy nvim"
+  alias lnvim="NVIM_LISTEN_ADDRESS=127.0.0.1:6666  NVIM_APPNAME=nvim_lazy nvim"
+  alias nviml="NVIM_LISTEN_ADDRESS=127.0.0.1:6666  NVIM_APPNAME=nvim_lazy nvim"
+  alias nvl="NVIM_LISTEN_ADDRESS=127.0.0.1:6666  NVIM_APPNAME=nvim_lazy nvim"
+
+  alias open_excel_personal_macro="open 'Library/Group Containers/UBF8T346G9.Office/User Content.localized/Startup.localized/Excel/PERSONAL.XLSB'"
+
+  function nvr { nvr --servername 127.0.0.1:6666 $@ }
+
+  alias use_go12='export PATH="/usr/local/opt/go@1.20/bin:$PATH"'
 
 
   alias use_php72='export PATH="/usr/local/opt/php@7.2/bin:$PATH" && export PATH="/usr/local/opt/php@7.2/sbin:$PATH"'
@@ -241,7 +244,11 @@ fi
   alias use_php74='export PATH="/usr/local/opt/php@7.4/bin:$PATH" && export PATH="/usr/local/opt/php@7.4/sbin:$PATH"'
   alias use_php80='export PATH="/usr/local/opt/php@8.0/bin:$PATH" && export PATH="/usr/local/opt/php@8.0/sbin:$PATH"'
   alias use_php81='export PATH="/usr/local/opt/php@8.1/bin:$PATH" && export PATH="/usr/local/opt/php@8.1/sbin:$PATH"'
+  alias use_php82='export PATH="/usr/local/opt/php@8.2/bin:$PATH" && export PATH="/usr/local/opt/php@8.2/sbin:$PATH"'
+
   alias mycomposer="COMPOSER_MEMORY_LIMIT=-1 ./vendor/composer/composer/bin/composer"
+
+  alias pv="php --version"
 
   alias rebase_erp="git rebase l7 master && gco dist && git rebase master -Xours"
 
@@ -253,8 +260,8 @@ fi
 #}}} _Utils
 
 # Python & Django {{{
-  alias p3='./venv/bin/python3 '
-  alias pa='source ./venv/bin/activate '
+  alias p3='~/venv/bin/python3 '
+  alias pa='source ~/venv/bin/activate  && export PATH="$PATH:/Users/juju/venv/bin/"'
 
   alias dj='python3 ./manage.py'
   alias djr='python3 ./manage.py runserver 0.0.0.0:8000'
@@ -268,6 +275,10 @@ fi
 
   alias artisan='php artisan'
 
+
+  function l:ou { php artisan october:up }
+  function l:or { php artisan plugin:rollback $@ }
+
   function l:db { php artisan db:$@ }
   function l:dbs { php artisan db:seed $@ }
   function l:dbsc { php artisan db:seed --class=$@ }
@@ -279,7 +290,19 @@ fi
   alias l:mco="php artisan make:component"
   alias l:ma="php artisan make:model"
   function l:mf { php artisan make:filament-$@ }
-  function l:mfr { php artisan make:filament-resource $@ }
+  function l:mfr { php artisan make:filament-resource  --generate $@ }
+
+  function l:mfrg { php artisan make:filament-resource  --generate $@ }
+  function l:mfrv { php artisan make:filament-resource  --view $@ }
+  function l:mfrv { php artisan make:filament-resource  --generate --view $@ }
+
+  function l:mfa { l:ma $@ -mRsf --policy}
+  function l:mfar { l:ma $@ -mRsf --policy && l:m filament-resource $@  --generate }
+
+  alias l:fcc='php artisan config:clear && php artisan route:clear && php artisan cache:clear && php artisan view:clear && php artisan icons:clear && php artisan filament:clear-cached-components'
+  alias l:fco='php artisan config:cache && php artisan route:cache && composer dump-autoload -o && php artisan optimize && php artisan view:cache && php artisan icons:cache && php artisan filament:cache-components'
+
+
   function l:p { php artisan plugin:$@ }
   function l: { php artisan $@ }
   # alias la4='php artisan'
@@ -456,6 +479,7 @@ fi
   alias grhh='git reset HEAD --hard'
   alias gR='git reset '
   alias gRh='git reset --hard '
+  alias gcfd='git clean -fd'
 
 
   # Stash
@@ -576,6 +600,10 @@ alias ppf="phpunit --filter="
 alias p="./vendor/phpunit/phpunit/phpunit"
 alias pf="./vendor/phpunit/phpunit/phpunit --filter="
 
+alias pe="./vendor/bin/pest"
+alias pest="./vendor/bin/pest"
+
+
 alias jest="./node_modules/.bin/jest"
 
 alias zz=exit
@@ -603,18 +631,11 @@ alias updatedb=/usr/libexec/locate.updatedb
 
 
 # Neovim
-alias nv='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
-alias nvi='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket ~/Development/Applications/neovim/neovim/build/bin/nvim'
+# 'NVIM_LISTEN_ADDRESS=127.0.0.1:6666 open -a neovide --args --maximized --title-hidden --frame=buttonless',
+alias nv='NVIM_LISTEN_ADDRESS=127.0.0.1:6666 nvim'
+alias nvd='NVIM_LISTEN_ADDRESS=127.0.0.1:6666 open -a neovide --args --maximized --title-hidden --frame=buttonless -- --cmd "tcd $(pwd)"'
+alias nvi='NVIM_LISTEN_ADDRESS=127.0.0.1:6666 ~/Development/Applications/neovim/neovim/build/bin/nvim'
 alias :='~/dotfiles/nvim/nvimex.py'
-alias nv_profile='cd ~/dotfiles/nvim/vim-plugins-profile/ && sh vim-plugins-profile.sh && open . && popd'
-alias nv_rprofile='ruby ~/dotfiles/nvim/vim-plugins-profile/vim-plugins-profile.rb'
-#atom
-alias nval='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim | atom --include-deprecated-apis .'
-alias nva='mkdir -p /tmp/neovim && NVIM_LISTEN_ADDRESS=/tmp/neovim/neovim581 nvim'
-#debug
-alias nvim_coredump="ulimit -c unlimited && nvim"
-alias nvim_gdb="gdb nvim"
-alias nvim_make_debug="make CMAKE_BUILD_TYPE=Debug"
 
 
 alias termpdf='~/Development/Applications/termpdf/termpdf'

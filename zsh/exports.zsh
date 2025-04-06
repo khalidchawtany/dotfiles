@@ -18,7 +18,7 @@ export ARCHFLAGS='-arch x86_64'
 
 export LESS='--ignore-case --raw-control-chars'
 export PAGER='less'
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
+# export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export EDITOR='nvim'
 
 # For luarocks not loading
@@ -40,7 +40,7 @@ export NVIM_QT_STYLESHEET=~/.config/nvim/style.qss
 
 export _Z_DATA=~/dotfiles/temp/z_jump
 
-export GOPATH=$HOME/Development/go
+export GOPATH=$HOME/go
 
 export ANDROID_SDK_ROOT="/Users/juju/Library/Android/sdk"
 export  ANDROID_HOM="/Users/juju/Library/Android"
@@ -56,7 +56,6 @@ export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/Users/juju/go/bin"
 export PATH="$PATH:/Users/juju/.cargo/bin"
-export PATH="$PATH:/Users/juju/.config/nvim/dein/repos/github.com/liuchengxu/vim-clap/target/release"
 export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 # export PATH="$PATH:/Users/juju/.config/nvim_lua/lsp/phpactor/bin"
 export PATH="$PATH:/Users/juju/.config/nvim_lua/lsp/phpactor/bin"
